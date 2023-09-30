@@ -25,8 +25,9 @@ const remove = catchError(async (req, res) => {
 
 const update = catchError(async (req, res) => {
     const { id } = req.params;
-    const actor = await Actors.update(req.body, { where: { id }, returning: true });
-    return res.json(actor);
+    const actor = await Actors.update(req.body, { where: {id}, returning: true });
+    if (actor[0] === 0) return res.sendStatus(404);
+    return res.json(actor[1][0]);
 });
 
 module.exports = {

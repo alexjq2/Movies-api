@@ -28,8 +28,9 @@ const remove = catchError(async (req, res) => {
 
 const update = catchError(async (req, res) => {
     const { id } = req.params;
-    const movies = await Movies.update(req.body, { where: { id }, returning: true });
-    return res.json(movies);
+    const movie = await Movies.update(req.body, { where: {id}, returning: true });
+    if (movie[0] === 0) return res.sendStatus(404);
+    return res.json(movie[1][0]);
 });
 
 const setMoviesActors = catchError(async(req, res) => {
